@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: FtcCommon-release:@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/FtcCommon-release.aar/64ccaf6b3b282be8986374b934099bdf/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/FtcCommon-release.aar/64ccaf6b3b282be8986374b934099bdf/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/FtcCommon-release-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
