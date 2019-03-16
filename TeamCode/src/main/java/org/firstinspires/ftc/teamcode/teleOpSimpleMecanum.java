@@ -83,36 +83,7 @@ public class teleOpSimpleMecanum extends LinearOpMode {
             clockwise = clockwise * k; //Make sure the "= Clockwise" is "= -clockwise"
 
 
-            // Calculate motor power
-            power1 = forward + clockwise + right;
-            power2 = forward - clockwise - right;
-            power3 = forward + clockwise - right;
-            power4 = forward - clockwise + right;
-
-            // Normalize Wheel speeds so that no speed exceeds 1.0
-            max = Math.abs(power1);
-            if (Math.abs(power2) > max) {
-                max = Math.abs(power2);
-            }
-            if (Math.abs(power3) > max) {
-                max = Math.abs(power3);
-            }
-            if (Math.abs(power4) > max) {
-                max = Math.abs(power4);
-            }
-
-            if (max > 1) {
-                power1 /= max;
-                power2 /= max;
-                power3 /= max;
-                power4 /= max;
-            }
-
-            robot.motor0.setPower(power1);
-            robot.motor1.setPower(power2);
-            robot.motor2.setPower(power3);
-            robot.motor3.setPower(power4);
-
+           robot.moveRobot(forward, right, clockwise);
 
             // Operator Controls
 
@@ -168,7 +139,10 @@ public class teleOpSimpleMecanum extends LinearOpMode {
             updateDisplay();
             idle();
 
-
+            //TODO: Fix "A" button -- It always goes to 2, then back down to 1. Never stops at 2
+            //TODO: Fix "Y" Button -- It brings clamp vertical, but not back down to horizontal.
+            //TODO: Add function to move back down to base position when clamp is vertical. Right now, that can't be done since pressing "A" is the only way to toggle the lift
+            //TODO: Fix "B" Button -- Right now, it doesn't find the mid position... Only Close.
 
 
 
@@ -178,7 +152,7 @@ public class teleOpSimpleMecanum extends LinearOpMode {
 
     public void updateDisplay(){
 
-        telemetry.addData("Lift Motor: ", liftMotor.getCurrentPosition());
+        telemetry.addData("Lift Motor: ", robot.liftMotor.getCurrentPosition());
         telemetry.addData("Clamp Position: ", robot.clampPosition);
         telemetry.addData("Rotate Position: ", robot.rotatePosition);
         telemetry.addData("Lift Height: ", robot.liftHeight);

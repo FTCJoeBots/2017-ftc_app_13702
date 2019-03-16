@@ -118,9 +118,9 @@ public class HardwareJoeBot2017
         motor2 = hwMap.dcMotor.get("motor2");
         motor3 = hwMap.dcMotor.get("motor3");
         liftMotor = hwMap.dcMotor.get("liftmotor");
-        clampServo = hwMap.servo.get("clampservo");
-        rotateServo = hwMap.servo.get("clamprotate");
-        jewelServo = hwMap.servo.get("jewelservo");
+        rotateServo    = hwMap.get(Servo.class, "clamprotate");
+        clampServo     = hwMap.get(Servo.class, "clampservo");
+        jewelServo     = hwMap.get(Servo.class, "jewelservo");
 
 
         // Set Default Motor Directions
@@ -174,8 +174,24 @@ public class HardwareJoeBot2017
 
         //Initial servo position
         jewelServo.setPosition(1);
-        clampVertical();
+        rotateServo.setPosition(0.4);
+
         clampOpen();
+        clampVertical();
+        myOpMode.telemetry.addLine("Just called clampVertical");
+        myOpMode.telemetry.update();
+
+        this.clampVertical();
+
+        myOpMode.telemetry.addLine("Just called this.clampVertical");
+        myOpMode.telemetry.update();
+
+
+        myOpMode.telemetry.addLine("Manually set Servo Position");
+        myOpMode.telemetry.update();
+
+
+
 
 
     }
@@ -373,7 +389,12 @@ public class HardwareJoeBot2017
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setTargetPosition(LIFT_BASE_POSITION);
         liftMotor.setPower(LIFT_MOTOR_POWER);
-
+        while (myOpMode.opModeIsActive() && liftMotor.isBusy()) {
+            myOpMode.telemetry.addLine("Moving Lift Motor to Base Position");
+            myOpMode.telemetry.update();
+            myOpMode.idle();
+        }
+        liftMotor.setPower(0);
         liftHeight = 0;
 
     }
@@ -387,6 +408,12 @@ public class HardwareJoeBot2017
         liftMotor.setTargetPosition(LIFT_SEARCH_ONE_POSITION);
         liftMotor.setPower(LIFT_MOTOR_POWER);
 
+        while (myOpMode.opModeIsActive() && liftMotor.isBusy()) {
+            myOpMode.telemetry.addLine("Moving Lift Motor to Search 1");
+            myOpMode.telemetry.update();
+            myOpMode.idle();
+        }
+        liftMotor.setPower(0);
         liftHeight = 1;
 
     }
@@ -399,6 +426,13 @@ public class HardwareJoeBot2017
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setTargetPosition(LIFT_SEARCH_TWO_POSITION);
         liftMotor.setPower(LIFT_MOTOR_POWER);
+
+        while (myOpMode.opModeIsActive() && liftMotor.isBusy()) {
+            myOpMode.telemetry.addLine("Moving Lift Motor to Search 2");
+            myOpMode.telemetry.update();
+            myOpMode.idle();
+        }
+        liftMotor.setPower(0);
 
         liftHeight = 2;
 
@@ -423,13 +457,13 @@ public class HardwareJoeBot2017
 
     public void clampHorizontal() {
         // Rotate the clamp to the Horizontal position
-        clampServo.setPosition(ROTATE_SERVO_HORIZONTAL_POSITION);
+        rotateServo.setPosition(ROTATE_SERVO_HORIZONTAL_POSITION);
         rotatePosition = 2;
     }
 
     public void clampVertical() {
         // Rotate the clamp to the Horizontal position
-        clampServo.setPosition(ROTATE_SERVO_VERTICAL_POSITION);
+        rotateServo.setPosition(ROTATE_SERVO_VERTICAL_POSITION);
         rotatePosition = 1;
     }
 
